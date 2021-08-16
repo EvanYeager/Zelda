@@ -1,0 +1,7 @@
+{
+	"files.exclude": {
+		"E:/UE4 Projects/Zelda/.vscode": true,
+		"E:/UE4 Projects/Zelda/Content": true,
+		"E:/UE4 Projects/Zelda/Intermediate": true
+	}
+}
