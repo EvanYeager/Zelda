@@ -1,5 +1,6 @@
 #include "HealthComponent.h"
 #include "Math/UnrealMathUtility.h"
+#include "GameFramework/Actor.h"
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -7,18 +8,23 @@ UHealthComponent::UHealthComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UHealthComponent::ChangeHealth(float Change) 
-{
-	Health += Change;
-	Health = FMath::Clamp(Health, 0.0f, MaxHealth);
-}
-
-
 // Called when the game starts
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	Health = MaxHealth;
 }
+
+float UHealthComponent::ChangeHealth(float Change) 
+{
+	Health += Change;
+	Health = FMath::Clamp(Health, 0.0f, MaxHealth);
+	if (Health == 0.0f)
+		GetOwner()->Destroy();
+	return Health;
+}
+
+
 
 
 // Called every frame

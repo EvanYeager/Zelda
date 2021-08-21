@@ -10,6 +10,7 @@
 class USpringArmComponent;
 class APlayerController;
 class UCameraComponent;
+class APlayerCameraManager;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class ZELDA_API UFocusComponent : public UActorComponent
@@ -48,17 +49,14 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	class AZeldaCharacter *Owner;
+	class AZeldaCharacter *Player;
 	APlayerController *PlayerController;
+	APlayerCameraManager *CameraManager;
 	AActor *Target;
-
-	FVector CameraLocation;
-	FRotator CameraRotation;
 
 	void Search();
 	void Focus();
 
 	float GetSearchRange();
-	void GetCameraViewPoint();
 	void SetCameraRotation(FRotator Rotation);
 };

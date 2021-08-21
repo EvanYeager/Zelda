@@ -5,6 +5,7 @@
 #include "Bow.generated.h"
 
 class AZeldaPlayerController;
+class AZeldaCharacter;
 
 UCLASS()
 class ZELDA_API UBow : public UItemParent

@@ -1,6 +1,7 @@
 #include "EnemyParent.h"
 #include "Controllers/ZeldaAIController.h"
 #include "Components/HealthComponent.h"
+#include "Components/Items/ItemParent.h"
 
 // Sets default values
 AEnemyParent::AEnemyParent()
@@ -21,14 +22,14 @@ AEnemyParent::AEnemyParent()
 void AEnemyParent::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 float AEnemyParent::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) 
 {
 	Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 
-	return 0;
+	UItemParent* CauserAsItem = Cast<UItemParent>(DamageCauser);
+	return HealthComponent->ChangeHealth(-Damage);
 }
 
 // Called every frame

@@ -11,23 +11,20 @@ UFocusComponent::UFocusComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UFocusComponent::FocusStart()
+// Called when the game starts 
+void UFocusComponent::BeginPlay()
 {
-	if (Target)
-		IsFocusing = true;
-	else
-	{
-		// TODO maybe change this to keep the player's rotation the entire time shift is held down
-		FRotator NewPlayerRotation = FRotator(Owner->GetActorRotation().Pitch,
-			CameraRotation.Yaw, 
-			Owner->GetActorRotation().Roll);
-		Owner->SetActorRotation(NewPlayerRotation);
-	}
-}
+	Super::BeginPlay();
 
-void UFocusComponent::FocusEnd()
-{
-	IsFocusing = false;
+	Player = Cast<AZeldaCharacter>(GetOwner());
+	PlayerController = Cast<APlayerController>(Player->GetController());
+	CameraManager = PlayerController->PlayerCameraManager;
+
+	check(Player);
+	check(PlayerController);
+	check(CameraManager);
+
+	GetWorld()->GetTimerManager().SetTimer(SearchTimerHandle, this, &UFocusComponent::Search, 0.1f, true, 0);
 }
 
 void UFocusComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) 
@@ -36,30 +33,35 @@ void UFocusComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		Focus();
 }
 
-// Called when the game starts 
-void UFocusComponent::BeginPlay()
+void UFocusComponent::FocusStart()
 {
-	Super::BeginPlay();
+	if (Target)
+		IsFocusing = true;
+	else
+	{
+		// TODO maybe change this to keep the player's rotation the entire time shift is held down
+		FRotator NewPlayerRotation = FRotator(Player->GetActorRotation().Pitch,
+			CameraManager->GetCameraRotation().Yaw, 
+			Player->GetActorRotation().Roll);
+		Player->SetActorRotation(NewPlayerRotation);
+	}
+}
 
-	Owner = Cast<AZeldaCharacter>(GetOwner());
-	PlayerController = Cast<APlayerController>(Owner->GetController());
-
-	check(Owner);
-	check(PlayerController);
-
-	GetWorld()->GetTimerManager().SetTimer(SearchTimerHandle, this, &UFocusComponent::Search, 0.1f, true, 0);
+void UFocusComponent::FocusEnd()
+{
+	IsFocusing = false;
 }
 
 void UFocusComponent::Search()
 {
-	GetCameraViewPoint();
 	FHitResult Hit;
-	FVector End = CameraLocation + CameraRotation.Vector() * GetSearchRange();
+	FVector Start = CameraManager->GetCameraLocation();
+	FVector End = Start + CameraManager->GetCameraRotation().Vector() * GetSearchRange();
 	FQuat quat = FQuat();
 	FCollisionQueryParams Params;
 	FCollisionResponseParams MoreParams;
 
-	if (GetWorld()->SweepSingleByChannel(Hit, CameraLocation, End, quat, ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeSphere(TraceSphereRadius), Params, MoreParams))
+	if (GetWorld()->SweepSingleByChannel(Hit, Start, End, quat, ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeSphere(TraceSphereRadius), Params, MoreParams))
 		Target = Hit.GetActor();
 	else
 		Target = nullptr;
@@ -70,22 +72,16 @@ void UFocusComponent::Focus()
 	if (!Target) return;
 
 	// point camera at target
-	GetCameraViewPoint();
-	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(CameraLocation, Target->GetActorLocation()); // find look at rotation
+	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(CameraManager->GetCameraLocation(), Target->GetActorLocation());
 	SetCameraRotation(LookAtRotation);
 }
 
 float UFocusComponent::GetSearchRange()
 {
-	return FocusRange + Owner->GetCameraBoom()->TargetArmLength;
-}
-
-void UFocusComponent::GetCameraViewPoint() 
-{
-	Owner->GetController()->GetPlayerViewPoint(CameraLocation, CameraRotation);
+	return FocusRange + Player->GetCameraBoom()->TargetArmLength;
 }
 
 void UFocusComponent::SetCameraRotation(FRotator Rotation) 
 {
-	Owner->GetController()->SetControlRotation(Rotation);
+	PlayerController->SetControlRotation(Rotation);
 }

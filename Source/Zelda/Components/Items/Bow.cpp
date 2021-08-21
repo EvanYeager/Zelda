@@ -4,9 +4,11 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "EnemyParent.h"
+#include "ZeldaCharacter.h"
 
 UBow::UBow() 
 {
+   GrossDamage = 30.0f;
    static ConstructorHelpers::FClassFinder<UUserWidget> WidgetObj(TEXT("/Game/ThirdPersonCPP/UI/Bow"));
    if (WidgetObj.Succeeded()) {
       WidgetClass = WidgetObj.Class;
@@ -47,9 +49,15 @@ void UBow::Shoot()
 
 	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_Visibility, Params, MoreParams))
    {
+      /*
+      *  this should be in its own function
+      */
       AEnemyParent* HitEnemy = Cast<AEnemyParent>(Hit.GetActor());
-      // if (HitEnemy)
-         // HitEnemy->TakeDamage(50);
+      if (HitEnemy)
+      {
+         FDamageEvent DamageEvent = FDamageEvent();
+         HitEnemy->TakeDamage(GrossDamage, DamageEvent, Controller, GetOwner());
+      }
    }   
 }
 
