@@ -3,7 +3,7 @@
 #include "ZeldaCameraManager.h"
 #include "ZeldaCharacter.h"
 #include "Components/FocusComponent.h"
-#include "Components/Items/ItemParent.h"
+#include "Components/Items/Item.h"
 
 AZeldaPlayerController::AZeldaPlayerController()
 {

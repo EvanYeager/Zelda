@@ -1,14 +1,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/Items/ItemParent.h"
+#include "Components/Items/Item.h"
 #include "Bow.generated.h"
 
 class AZeldaPlayerController;
 class AZeldaCharacter;
 
 UCLASS()
-class ZELDA_API UBow : public UItemParent
+class ZELDA_API UBow : public UItem
 {
 	GENERATED_BODY()
 

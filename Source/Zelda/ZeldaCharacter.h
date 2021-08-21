@@ -7,7 +7,7 @@
 #include "ZeldaCharacter.generated.h"
 
 class UFocusComponent;
-class UItemParent;
+class UItem;
 class UHealthComponent;
 
 /**
@@ -64,13 +64,13 @@ public:
 	class UFocusComponent* FocusComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Items)
-	TArray<UItemParent*> Items;
+	TArray<UItem*> Items;
 
 	// do I need this?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Items)
 	InputMode InputMode;
 
-	UItemParent* SelectedItem;
+	UItem* SelectedItem;
 	UHealthComponent* HealthComponent;
 
 protected:

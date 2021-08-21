@@ -27,6 +27,7 @@ void UBow::UseStart()
 	// maybe the bow should have the camera movement properties?
 	// Controller->PlayerCameraManager->playCameraanim()
 
+   // TODO play sound
 }
 
 void UBow::UseEnd() 
@@ -40,6 +41,8 @@ void UBow::UseEnd()
 
 void UBow::Shoot() 
 {
+   // TODO play sound
+
 	FHitResult Hit;
    FRotator Rotation = Controller->PlayerCameraManager->GetCameraRotation();
    FVector Start = Controller->PlayerCameraManager->GetCameraLocation();
@@ -50,7 +53,7 @@ void UBow::Shoot()
 	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_Visibility, Params, MoreParams))
    {
       /*
-      *  this should be in its own function
+      *  TODO this should be in its own function
       */
       AEnemyParent* HitEnemy = Cast<AEnemyParent>(Hit.GetActor());
       if (HitEnemy)

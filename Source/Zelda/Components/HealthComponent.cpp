@@ -15,6 +15,12 @@ void UHealthComponent::BeginPlay()
 	Health = MaxHealth;
 }
 
+// Called every frame
+void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+}
+
 float UHealthComponent::ChangeHealth(float Change) 
 {
 	Health += Change;
@@ -23,13 +29,3 @@ float UHealthComponent::ChangeHealth(float Change)
 		GetOwner()->Destroy();
 	return Health;
 }
-
-
-
-
-// Called every frame
-void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-}
-

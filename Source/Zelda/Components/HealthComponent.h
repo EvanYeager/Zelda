@@ -14,7 +14,7 @@ public:
 	// Sets default values for this component's properties
 	UHealthComponent();
 
-	UFUNCTION(BlueprintCallable, )
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE float GetHealth() { return Health; }
 	/** Adds the change amount to current health. 
 	 * Negative values will decrease health while positive values will increase health. 
