@@ -16,11 +16,16 @@ public:
 	// Sets default values for this component's properties
 	UItemParent();
 
-	virtual void Use();
+	virtual void UseStart();
+	virtual void UseEnd();
 	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	UCameraAnim* CameraAnim;
 
 
 public:	

@@ -7,11 +7,11 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Controllers/ZeldaPlayerController.h"
+#include "Components/FocusComponent.h"
+#include "Components/Items/Bow.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/HealthComponent.h"
 
-
-class UFocusComponent;
-class UItemParent;
 
 AZeldaCharacter::AZeldaCharacter()
 {
@@ -20,7 +20,8 @@ AZeldaCharacter::AZeldaCharacter()
 
 	// components
 	FocusComponent = CreateDefaultSubobject<UFocusComponent>(TEXT("Focus Component"));
-	Items.Add(CreateDefaultSubobject<UItemParent>(TEXT("Test item")));
+	Items.Add(CreateDefaultSubobject<UBow>(TEXT("Test item")));
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 
 	// set player controller
 	AIControllerClass = AZeldaPlayerController::StaticClass();
@@ -52,47 +53,6 @@ AZeldaCharacter::AZeldaCharacter()
 	FollowCamera->bUsePawnControlRotation = false;										 // Camera does not rotate relative to arm
 
 	SelectedItem = Items[0] ? Items[0] : nullptr;
-}
-
-//////////////////////////////////////////////////////////////////////////
-// Input
-
-void AZeldaCharacter::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent)
-{
-	// Set up gameplay key bindings
-	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
-	PlayerInputComponent->BindAction("ZoomIn", IE_Pressed, this, &AZeldaCharacter::ZoomIn);
-	PlayerInputComponent->BindAction("ZoomOut", IE_Pressed, this, &AZeldaCharacter::ZoomOut);
-
-	PlayerInputComponent->BindAction("UseItem", IE_Released, this, &AZeldaCharacter::UseItem);
-
-	PlayerInputComponent->BindAction("Focus", IE_Pressed, FocusComponent, &UFocusComponent::FocusStart);
-	PlayerInputComponent->BindAction("Focus", IE_Released, FocusComponent, &UFocusComponent::FocusEnd);
-
-	PlayerInputComponent->BindAxis("MoveForward", this, &AZeldaCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AZeldaCharacter::MoveRight);
-
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &AZeldaCharacter::TurnAtRate);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &AZeldaCharacter::LookUpAtRate);
-
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AZeldaCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AZeldaCharacter::TouchStopped);
-}
-
-void AZeldaCharacter::UseItem() 
-{
-	check(SelectedItem);
-
-	SelectedItem->Use();
 }
 
 void AZeldaCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)

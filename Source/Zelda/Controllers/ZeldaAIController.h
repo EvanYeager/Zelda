@@ -12,6 +12,5 @@
 UCLASS()
 class ZELDA_API AZeldaAIController : public AAIController
 {
-	GENERATED_BODY()
-	
+	GENERATED_BODY()	
 };

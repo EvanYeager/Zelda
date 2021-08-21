@@ -1,16 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ZeldaCharacter.h"
 #include "TimerManager.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "GameFramework/PlayerController.h"
-#include "Camera/CameraComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "FocusComponent.generated.h"
+
+class USpringArmComponent;
+class APlayerController;
+class UCameraComponent;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class ZELDA_API UFocusComponent : public UActorComponent
@@ -50,6 +49,7 @@ protected:
 
 private:
 	class AZeldaCharacter *Owner;
+	APlayerController *PlayerController;
 	AActor *Target;
 
 	FVector CameraLocation;

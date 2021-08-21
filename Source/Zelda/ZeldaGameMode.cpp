@@ -13,5 +13,4 @@ AZeldaGameMode::AZeldaGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
-	PlayerControllerClass = AZeldaPlayerController::StaticClass();
 }

@@ -1,9 +1,9 @@
 #include "FocusComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "Camera/CameraComponent.h"
 #include "Engine/World.h"
 
-class USpringArmComponent;
-class APlayerController;
-class UCameraComponent;
 
 // Sets default values for this component's properties
 UFocusComponent::UFocusComponent()
@@ -42,8 +42,10 @@ void UFocusComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Owner = Cast<AZeldaCharacter>(GetOwner());
+	PlayerController = Cast<APlayerController>(Owner->GetController());
 
 	check(Owner);
+	check(PlayerController);
 
 	GetWorld()->GetTimerManager().SetTimer(SearchTimerHandle, this, &UFocusComponent::Search, 0.1f, true, 0);
 }

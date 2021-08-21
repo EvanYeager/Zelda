@@ -4,9 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Components/FocusComponent.h"
-#include "Components/Items/ItemParent.h"
 #include "ZeldaCharacter.generated.h"
+
+class UFocusComponent;
+class UItemParent;
+class UHealthComponent;
+
+/**
+ * enum for the different items that affect how input is handled. 
+ * For example, mouse input in the "Bow" mode will move the camera differently than in "Normal" mode
+ */
+UENUM(BlueprintType)
+enum class InputMode : uint8
+{
+	Normal UMETA(DisplayName="Normal"),
+	Bow UMETA(DisplayName="Bow")
+};
 
 UCLASS(config=Game)
 class AZeldaCharacter : public ACharacter
@@ -22,6 +35,19 @@ class AZeldaCharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 public:
 	AZeldaCharacter();
+
+	/**
+	 * Input Functions
+	 */
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void ZoomIn();
+	void ZoomOut();
+	void TurnAtRate(float Rate);
+	void LookUpAtRate(float Rate);
+	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
+	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -40,44 +66,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Items)
 	TArray<UItemParent*> Items;
 
+	// do I need this?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Items)
+	InputMode InputMode;
+
+	UItemParent* SelectedItem;
+	UHealthComponent* HealthComponent;
+
 protected:
-	/** Called for forwards/backward input */
-	void MoveForward(float Value);
 
-	/** Called for side to side input */
-	void MoveRight(float Value);
-
-	void ZoomIn();
-	void ZoomOut();
-
-	/** 
-	 * Called via input to turn at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void TurnAtRate(float Rate);
-
-	/**
-	 * Called via input to turn look up/down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void LookUpAtRate(float Rate);
-
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 private:
 	float CameraBoomLengthUpperLimit = 1000.0f;
 	float CameraBoomLengthLowerLimit = 300.0f;
-	UItemParent* SelectedItem;
 
 protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void UseItem();
 
 public:
 	/** Returns CameraBoom subobject **/

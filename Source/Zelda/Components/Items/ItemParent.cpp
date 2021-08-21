@@ -1,7 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ItemParent.h"
+#include "GameFramework/GameMode.h"
+#include "Controllers/ZeldaPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UItemParent::UItemParent()
@@ -20,9 +20,14 @@ void UItemParent::BeginPlay()
 	Super::BeginPlay();
 }
 
-void UItemParent::Use() 
-{	
-	UE_LOG(LogTemp, Warning, TEXT("Using item"));
+void UItemParent::UseStart() 
+{
+	
+}
+
+void UItemParent::UseEnd() 
+{
+	
 }
 
 
