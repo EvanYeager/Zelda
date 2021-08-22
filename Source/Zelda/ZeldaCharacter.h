@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "BlockInterface.h"
 #include "ZeldaCharacter.generated.h"
 
 class UFocusComponent;
@@ -22,7 +23,7 @@ enum class InputMode : uint8
 };
 
 UCLASS(config=Game)
-class AZeldaCharacter : public ACharacter
+class AZeldaCharacter : public ACharacter, public IBlockInterface
 {
 	GENERATED_BODY()
 
@@ -74,14 +75,12 @@ public:
 	UHealthComponent* HealthComponent;
 
 protected:
-
+	virtual void Block();
+	virtual void UnBlock();
 
 private:
 	float CameraBoomLengthUpperLimit = 1000.0f;
 	float CameraBoomLengthLowerLimit = 300.0f;
-
-protected:
-
 
 public:
 	/** Returns CameraBoom subobject **/

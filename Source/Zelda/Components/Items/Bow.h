@@ -7,6 +7,7 @@
 
 class AZeldaPlayerController;
 class AZeldaCharacter;
+class USoundBase;
 
 UCLASS()
 class ZELDA_API UBow : public UWeapon, public IProjectileInterface
@@ -21,8 +22,11 @@ public:
 private:
 	void UseStart() override;
 	void UseEnd() override;
-	
+
 	const float RANGE = 3000.0f;
+	USoundBase* BowDrawSound;
+	USoundBase* BowFireSound;
+	UAudioComponent* BowDrawAudio;
 
 	TSubclassOf<UUserWidget> WidgetClass;
 	AZeldaPlayerController* Controller;

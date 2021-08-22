@@ -2,12 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "BlockInterface.h"
 #include "EnemyParent.generated.h"
 
 class UHealthComponent;
 
 UCLASS()
-class ZELDA_API AEnemyParent : public APawn
+class ZELDA_API AEnemyParent : public APawn, public IBlockInterface
 {
 	GENERATED_BODY()
 
@@ -22,12 +23,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void Block() override;
+	virtual void UnBlock() override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	

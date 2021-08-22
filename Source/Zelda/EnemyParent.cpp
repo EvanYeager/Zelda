@@ -15,20 +15,12 @@ AEnemyParent::AEnemyParent()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 
 	AIControllerClass = AZeldaAIController::StaticClass();
-	
 }
 
 // Called when the game starts or when spawned
 void AEnemyParent::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-float AEnemyParent::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) 
-{
-	Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-
-	return HealthComponent->ChangeHealth(-Damage);
 }
 
 // Called every frame
@@ -38,10 +30,20 @@ void AEnemyParent::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void AEnemyParent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AEnemyParent::Block() 
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	bCanBeDamaged = false;	
+}
 
+void AEnemyParent::UnBlock() 
+{
+	bCanBeDamaged = true;
+}
+
+float AEnemyParent::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) 
+{
+	Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+
+	return ShouldTakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser) ? HealthComponent->ChangeHealth(-Damage) : HealthComponent->GetHealth();
 }
 

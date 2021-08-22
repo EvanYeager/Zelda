@@ -35,6 +35,9 @@ void UFocusComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 void UFocusComponent::FocusStart()
 {
+	if (GetOwner()->Implements<UBlockInterface>())
+		Cast<IBlockInterface>(GetOwner())->Block();
+
 	if (Target)
 		IsFocusing = true;
 	else
@@ -49,6 +52,8 @@ void UFocusComponent::FocusStart()
 
 void UFocusComponent::FocusEnd()
 {
+	if (GetOwner()->Implements<UBlockInterface>())
+		Cast<IBlockInterface>(GetOwner())->Block();
 	IsFocusing = false;
 }
 

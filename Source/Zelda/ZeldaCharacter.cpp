@@ -65,6 +65,16 @@ void AZeldaCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 	StopJumping();
 }
 
+void AZeldaCharacter::Block() 
+{
+	bCanBeDamaged = false;
+}
+
+void AZeldaCharacter::UnBlock() 
+{
+	bCanBeDamaged = true;
+}
+
 void AZeldaCharacter::TurnAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
