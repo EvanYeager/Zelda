@@ -15,7 +15,6 @@ UBow::UBow()
    }
 }
 
-
 void UBow::UseStart() 
 {
    Controller = Cast<AZeldaPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
@@ -33,17 +32,16 @@ void UBow::UseStart()
 void UBow::UseEnd() 
 {
    if (!Controller) return; // hopefully the UseStart() will always execute before this so it shouldn't be null
-
    Controller->RemoveActiveWidget();
 
-   Shoot();
+   FireProjectile();
 }
 
-void UBow::Shoot() 
+void UBow::FireProjectile() 
 {
    // TODO play sound
 
-	FHitResult Hit;
+   FHitResult Hit;
    FRotator Rotation = Controller->PlayerCameraManager->GetCameraRotation();
    FVector Start = Controller->PlayerCameraManager->GetCameraLocation();
 	FVector End = Start + Rotation.Vector() * RANGE;
@@ -52,15 +50,8 @@ void UBow::Shoot()
 
 	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_Visibility, Params, MoreParams))
    {
-      /*
-      *  TODO this should be in its own function
-      */
       AEnemyParent* HitEnemy = Cast<AEnemyParent>(Hit.GetActor());
       if (HitEnemy)
-      {
-         FDamageEvent DamageEvent = FDamageEvent();
-         HitEnemy->TakeDamage(GrossDamage, DamageEvent, Controller, GetOwner());
-      }
-   }   
+         DamageActor(HitEnemy);
+   }
 }
-

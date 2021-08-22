@@ -28,7 +28,6 @@ float AEnemyParent::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 {
 	Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 
-	UItem* CauserAsItem = Cast<UItem>(DamageCauser);
 	return HealthComponent->ChangeHealth(-Damage);
 }
 
