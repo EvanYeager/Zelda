@@ -47,3 +47,8 @@ float AEnemyParent::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 	return ShouldTakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser) ? HealthComponent->ChangeHealth(-Damage) : HealthComponent->GetHealth();
 }
 
+void AEnemyParent::Destroyed() 
+{
+	OnDeath.ExecuteIfBound();
+}
+

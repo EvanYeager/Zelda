@@ -19,6 +19,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
 	UHealthComponent* HealthComponent;
 
+	DECLARE_DELEGATE(FOnDeathDelegate);
+	FOnDeathDelegate OnDeath;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,4 +37,6 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* Mesh;
 
+private:
+	virtual void Destroyed() override;
 };

@@ -15,7 +15,7 @@ class ZELDA_API AZeldaPlayerController : public APlayerController
 public:
 	AZeldaPlayerController();
 
-	void ShowWidget(TSubclassOf<UUserWidget> Widget);
+	UUserWidget* ShowWidget(TSubclassOf<UUserWidget> Widget);
 	void RemoveActiveWidget();
 
 protected:

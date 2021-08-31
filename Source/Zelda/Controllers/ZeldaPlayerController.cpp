@@ -120,12 +120,13 @@ void AZeldaPlayerController::AddControllerPitchInput(float Value)
 }
 
 
-void AZeldaPlayerController::ShowWidget(TSubclassOf<UUserWidget> Widget) 
+UUserWidget* AZeldaPlayerController::ShowWidget(TSubclassOf<UUserWidget> Widget) 
 {
-   if (!Widget) return;
+   if (!Widget) return nullptr;
    
    ActiveWidget = CreateWidget(this, Widget);
    ActiveWidget->AddToViewport();
+   return ActiveWidget;
 }
 
 void AZeldaPlayerController::RemoveActiveWidget() 

@@ -23,16 +23,21 @@ public:
 	 */
 	float ChangeHealth(float Change);
 
+	/** Sets max health variable.
+	 * Also ensures the current health is not over the new max health.
+	 */
+	void SetMaxHealth(float NewHealth);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxHealth = 100.0f;
 
-	float Health;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 private:
+	float Health;
 
 public:	
 	// Called every frame

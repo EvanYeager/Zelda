@@ -29,3 +29,9 @@ float UHealthComponent::ChangeHealth(float Change)
 		GetOwner()->Destroy();
 	return Health;
 }
+
+void UHealthComponent::SetMaxHealth(float NewHealth) 
+{
+	MaxHealth = FMath::Clamp<float>(NewHealth, 0.0f, TNumericLimits<float>::Max());
+	Health = FMath::Clamp<float>(Health, 0.0f, MaxHealth);
+}
