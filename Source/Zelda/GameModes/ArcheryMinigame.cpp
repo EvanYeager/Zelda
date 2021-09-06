@@ -38,8 +38,7 @@ void UArcheryTargetSpawner::SpawnTargets()
          break;
       }
       if (!Class) continue;
-      AArcheryTarget* TargetSpawned = GetWorld()->SpawnActor<AArcheryTarget>(Class, Transform, FActorSpawnParameters());
-      TargetSpawned->HealthComponent->SetMaxHealth(1.0f);
+      GetWorld()->SpawnActor<AArcheryTarget>(Class, Transform, FActorSpawnParameters());
    }
 }
 

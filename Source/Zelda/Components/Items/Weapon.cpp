@@ -7,5 +7,10 @@ float UWeapon::DamageActor(AEnemyParent* Target)
 {
    FDamageEvent DamageEvent = FDamageEvent();
    AZeldaPlayerController* Controller = Cast<AZeldaPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-   return Target->TakeDamage(GrossDamage, DamageEvent, Controller, GetOwner());
+   return Target->TakeDamage(CalculateDamage(), DamageEvent, Controller, GetOwner());
+}
+
+float UWeapon::CalculateDamage() 
+{
+   return GrossDamage;
 }

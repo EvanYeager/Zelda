@@ -32,6 +32,8 @@ void UBow::UseStart()
 	// maybe the bow should have the camera movement properties?
 	// Controller->PlayerCameraManager->playCameraanim()
 
+   StartDrawTimer();
+
    if (BowDrawSound)
       BowDrawAudio = UGameplayStatics::SpawnSoundAtLocation(GetWorld(), BowDrawSound, GetOwner()->GetActorLocation());
 }
@@ -39,10 +41,13 @@ void UBow::UseStart()
 void UBow::UseEnd() 
 {
    Controller->RemoveActiveWidget();
+   GetWorld()->GetTimerManager().ClearTimer(BowDrawTimer);
    if (BowDrawAudio)
       BowDrawAudio->Stop();
+
    FireProjectile();
 }
+
 
 void UBow::FireProjectile() 
 {
@@ -60,7 +65,26 @@ void UBow::FireProjectile()
    {
       AEnemyParent* HitEnemy = Cast<AEnemyParent>(Hit.GetActor());
       if (HitEnemy)
+      {
          DamageActor(HitEnemy);
+      }
       // TODO maybe have an arrow impact sound
    }
+}
+
+void UBow::StartDrawTimer() 
+{
+   DrawTime = 0.0f; // reset draw time
+   GetWorld()->GetTimerManager().SetTimer(BowDrawTimer, this, &UBow::CountDrawTime, BOW_DRAW_TIMER_DELAY, true, 0);
+}
+
+
+void UBow::CountDrawTime() 
+{
+   DrawTime = FMath::Clamp<float>(DrawTime + BOW_DRAW_TIMER_DELAY, 0.0f, MAX_DRAW_TIME);
+}
+
+float UBow::CalculateDamage() 
+{
+   return GrossDamage * DrawTime / MAX_DRAW_TIME;
 }

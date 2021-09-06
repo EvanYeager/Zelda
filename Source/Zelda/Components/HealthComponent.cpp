@@ -23,8 +23,7 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 float UHealthComponent::ChangeHealth(float Change) 
 {
-	Health += Change;
-	Health = FMath::Clamp(Health, 0.0f, MaxHealth);
+	Health = FMath::Clamp(Health + Change, 0.0f, MaxHealth);
 	if (Health == 0.0f)
 		GetOwner()->Destroy();
 	return Health;
