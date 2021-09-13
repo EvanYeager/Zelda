@@ -27,12 +27,17 @@ void AZeldaPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("Focus", IE_Pressed, this, &AZeldaPlayerController::FocusStart);
 	InputComponent->BindAction("Focus", IE_Released, this, &AZeldaPlayerController::FocusEnd);
+   
+	InputComponent->BindAction("SwapItem_Left", IE_Pressed, this, &AZeldaPlayerController::SwapItemLeft);
+	InputComponent->BindAction("SwapItem_Right", IE_Pressed, this, &AZeldaPlayerController::SwapItemRight);
 
 	InputComponent->BindAxis("MoveForward", this, &AZeldaPlayerController::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AZeldaPlayerController::MoveRight);
 
 	InputComponent->BindAxis("Turn", this, &AZeldaPlayerController::AddControllerYawInput);
 	InputComponent->BindAxis("LookUp", this, &AZeldaPlayerController::AddControllerPitchInput);
+
+
 }
 
 void AZeldaPlayerController::Jump() 
@@ -117,6 +122,20 @@ void AZeldaPlayerController::AddControllerPitchInput(float Value)
    Character = Cast<AZeldaCharacter>(GetPawn());
    if (!Character) return;
    Character->AddControllerPitchInput(Value);
+}
+
+void AZeldaPlayerController::SwapItemLeft() 
+{
+   Character = Cast<AZeldaCharacter>(GetPawn());
+   if (!Character) return;
+   Character->SwapItem(-1);
+}
+
+void AZeldaPlayerController::SwapItemRight() 
+{
+   Character = Cast<AZeldaCharacter>(GetPawn());
+   if (!Character) return;
+   Character->SwapItem(1);
 }
 
 

@@ -9,6 +9,7 @@
 #include "Controllers/ZeldaPlayerController.h"
 #include "Components/FocusComponent.h"
 #include "Components/Items/Bow.h"
+#include "Components/Items/Bomb.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/HealthComponent.h"
 
@@ -20,7 +21,6 @@ AZeldaCharacter::AZeldaCharacter()
 
 	// components
 	FocusComponent = CreateDefaultSubobject<UFocusComponent>(TEXT("Focus Component"));
-	Items.Add(CreateDefaultSubobject<UBow>(TEXT("Test item")));
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 
 	// set player controller
@@ -52,6 +52,20 @@ AZeldaCharacter::AZeldaCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false;										 // Camera does not rotate relative to arm
 
+}
+
+void AZeldaCharacter::BeginPlay() 
+{
+	Super::BeginPlay();
+	Items.Empty(); // so idk why tf it has random data for Items[0] at the start but this gets rid of it
+	
+	UItem* Item;
+	Item = NewObject<UItem>(this, UBow::StaticClass());
+	Item->RegisterComponent();
+	Items.Add(Item);
+	Item = NewObject<UItem>(this, UBomb::StaticClass());
+	Item->RegisterComponent();
+	Items.Add(Item);
 	SelectedItem = Items[0] ? Items[0] : nullptr;
 }
 
@@ -64,6 +78,18 @@ void AZeldaCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 {
 	StopJumping();
 }
+
+void AZeldaCharacter::SwapItem(int8_t RelativeIndex) 
+{
+	if (!SelectedItem || Items.Find(SelectedItem) == INDEX_NONE) return;
+
+	int32 SelectedItemIndex = Items.Find(SelectedItem);
+	int32 NewIndex = SelectedItemIndex + RelativeIndex;
+	if (NewIndex < 0) NewIndex = Items.Num() - 1;
+	else if (NewIndex > Items.Num() - 1) NewIndex = 0;
+	SelectedItem = Items[NewIndex];
+}
+
 
 void AZeldaCharacter::Block() 
 {

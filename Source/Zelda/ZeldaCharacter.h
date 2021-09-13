@@ -48,6 +48,9 @@ public:
 	void LookUpAtRate(float Rate);
 	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+	/** Sets the selected item
+	 * @param RelativeIndex should be 1 for forward in the array, -1 for backwards. */
+	void SwapItem(int8_t RelativeIndex);
 
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -75,6 +78,8 @@ public:
 	UHealthComponent* HealthComponent;
 
 protected:
+	virtual void BeginPlay() override;
+
 	virtual void Block();
 	virtual void UnBlock();
 

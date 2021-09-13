@@ -44,5 +44,8 @@ private:
 	void MoveRight(float Value);
 	void AddControllerYawInput(float Value);
 	void AddControllerPitchInput(float Value);
+	void SwapItemLeft();
+	void SwapItemRight();
+
 
 };
