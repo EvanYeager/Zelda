@@ -16,3 +16,5 @@ UItem::UItem()
 void UItem::UseStart() {}
 
 void UItem::UseEnd() {}
+
+void UItem::Select() {}

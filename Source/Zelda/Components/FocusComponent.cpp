@@ -53,7 +53,7 @@ void UFocusComponent::FocusStart()
 void UFocusComponent::FocusEnd()
 {
 	if (GetOwner()->Implements<UBlockInterface>())
-		Cast<IBlockInterface>(GetOwner())->Block();
+		Cast<IBlockInterface>(GetOwner())->UnBlock();
 	IsFocusing = false;
 }
 

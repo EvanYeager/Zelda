@@ -12,6 +12,7 @@ AEnemyParent::AEnemyParent()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
 	Mesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel1, ECollisionResponse::ECR_Block);
+	Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 
 	AIControllerClass = AZeldaAIController::StaticClass();

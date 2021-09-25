@@ -16,11 +16,13 @@ public:
 	UBomb();
 	void UseStart() override;
 protected:
+	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 private:
 	void Equip();
 	void Throw();
 	void SpawnBomb();
+	FVector GetBombHoldPosition();
 	
 	bool isEquipped;
 	TSubclassOf<ABombExplosive> BombMeshClass;

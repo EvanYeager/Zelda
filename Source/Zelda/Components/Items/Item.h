@@ -14,8 +14,12 @@ public:
 	// Sets default values for this component's properties
 	UItem();
 
+	/** Executed when the use button is pressed down */
 	virtual void UseStart();
+	/** Executed when the use button is released */
 	virtual void UseEnd();
+	/* Executed when this weapon gets selected */
+	virtual void Select();
 	
 protected:
 

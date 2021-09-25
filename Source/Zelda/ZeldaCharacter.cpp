@@ -18,6 +18,7 @@ AZeldaCharacter::AZeldaCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
 
 	// components
 	FocusComponent = CreateDefaultSubobject<UFocusComponent>(TEXT("Focus Component"));
@@ -88,6 +89,7 @@ void AZeldaCharacter::SwapItem(int8_t RelativeIndex)
 	if (NewIndex < 0) NewIndex = Items.Num() - 1;
 	else if (NewIndex > Items.Num() - 1) NewIndex = 0;
 	SelectedItem = Items[NewIndex];
+	SelectedItem->Select();
 }
 
 

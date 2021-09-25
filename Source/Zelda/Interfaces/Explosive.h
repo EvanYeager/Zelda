@@ -20,6 +20,7 @@ class ZELDA_API IExplosive
 public:
 	// float Lifetime = 3.5f;
 	FTimerHandle ExplosionTimer;
+	float ExplosionRadius = 300.0f;
 
 	virtual void SetExplosionTimer(float Delay) = 0;
 	virtual void Explode() = 0;

@@ -19,6 +19,7 @@ public:
 	virtual void SetExplosionTimer(float Delay) override;
 	virtual void Explode() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* Mesh;
 
 protected:
@@ -26,9 +27,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float LIFESPAN = 4.0f;
+	float LIFESPAN = 6.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float Damage = 60.0f;
 
 private:
+	// you can change this path if needed
+	FString MeshAssetPath = TEXT("/Game/Geometry/Meshes/1M_Cube");
 
 public:	
 	// Called every frame
