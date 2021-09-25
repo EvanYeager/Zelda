@@ -7,7 +7,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Controllers/ZeldaPlayerController.h"
-#include "Components/FocusComponent.h"
+#include "Components/PlayerFocusComponent.h"
 #include "Components/Items/Bow.h"
 #include "Components/Items/Bomb.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -21,7 +21,7 @@ AZeldaCharacter::AZeldaCharacter()
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
 
 	// components
-	FocusComponent = CreateDefaultSubobject<UFocusComponent>(TEXT("Focus Component"));
+	FocusComponent = CreateDefaultSubobject<UPlayerFocusComponent>(TEXT("Focus Component"));
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 
 	// set player controller

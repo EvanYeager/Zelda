@@ -21,28 +21,27 @@ public:
 	// Sets default values for this component's properties
 	UFocusComponent();
 
-	// Timer handle for searching for target via trace
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	// Timer handle for searching for target via trace
 	FTimerHandle SearchTimerHandle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	// TODO move this block to the component owner
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FocusRange = 1000.0f;
-	// radius of the sphere for searching for targets. Larger radius means targets will be found further from the middle of the camera POV
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	// radius of the sphere for searching for targets. Larger radius means targets will be found further from the middle of the camera POV
 	float TraceSphereRadius = 300.0f;
 
-	// TODO 
-	/** this boolean will trigger Focus() each frame when true. 
-	 * Conditions for being true: Search() finds a target AND "Focus" action event is pressed down 
-	 */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	bool IsFocusing;
+	virtual bool ShouldFocus();
 
 	UFUNCTION()
-	void FocusStart();
+	/** For NPCs, this is called when focusing starts. 
+	 * For the player, this is called when the focus button is pressed down. */
+	virtual void FocusStart();
 	UFUNCTION()
-	void FocusEnd();
+	/** For NPCs, this is called when focusing ends. 
+	 * For the player, this is called when the focus button is let go. */
+	virtual void FocusEnd();
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
@@ -55,11 +54,11 @@ protected:
 	AActor *Target;
 
 	/** Search (line trace) for target. */
-	void Search();
-	void Focus();
+	virtual void Search();
+	virtual void Focus();
 
-	float GetSearchRange();
-	void SetCameraRotation(FRotator Rotation);
+	virtual float GetSearchRange();
 	
+
 private:
 };
